@@ -1,5 +1,9 @@
 # Wikipedia Mobile
 
+Fork of https://github.com/wikimedia/WikipediaMobile.git with an option to select Unicode font from /sdcard/Fonts folder. This settings is available under Menu -> More -> Font. User needs to manually create Fonts folder in sdcard location (/sdcard/Fonts), download and copy ttf fonts. Once fonts are copied, settings page will show the font for selection.
+
+Note: You can use ES File Explorer app from Google Play Store (Free) to create Fonts folder in sdcard and copy font files from Download folder to /sdcard/Fonts folder.
+
 ## Getting started
 
 1. Setup your development environment

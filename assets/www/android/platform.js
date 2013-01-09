@@ -274,3 +274,17 @@ app.loadCachedPage = function( url, title, lang ) {
 	window.urlCache.getCachedPathForURI( url, gotPath, gotError );
 	return d;
 }
+
+app.listFonts = function(name, fullPath, callback) {
+	try {
+		var dirEntry = new DirectoryEntry(name, fullPath);
+		var directoryReader = dirEntry.createReader();
+		directoryReader.readEntries(callback, failDirectoryReader);
+	} catch (e) {
+		//alert("Error");
+	}
+}
+
+function failDirectoryReader(error) {
+	//alert(error.code);
+}

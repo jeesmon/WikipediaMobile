@@ -38,6 +38,10 @@ window.app = function() {
 	function loadCachedPage( url, title, lang ) {
 		// Overriden by platform specific implementations;
 	}
+	
+	function listFonts(path) {
+	
+	}
 
 	function setCurrentPage(page) {
 		app.curPage = page;
@@ -137,6 +141,28 @@ window.app = function() {
 	function setFontSize(size) {
 		preferencesDB.set('fontSize', size);
 		$('#main').css('font-size', size);
+	}
+	
+	function setFont(font) {
+		preferencesDB.set('font', font);
+		addFontFace(font);
+	}
+	
+	function addFontFace(font) {
+		if(font != null) {
+			var fontsDir = 'Fonts';
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+	            function(fileSys) {
+	            	fileSys.root.getDirectory(fontsDir, {create: false, exclusive: false}, function(dir) {
+	            		$('head').find('style').empty().remove();
+	            		if(font != 'Default') {
+	            			var ff = "<style type=\"text/css\">@font-face {font-family: \"customFont\"; src: url(\"" + dir.fullPath + "/" + font + "\") format(\"opentype\");}</style>";
+	            			$('head').prepend(ff);
+	            		}
+	            	}, function(err){});
+	            }, function(err){}
+	        );
+		}
 	}
 
 	var curTheme = null;
@@ -252,6 +278,7 @@ window.app = function() {
 	}
 	var exports = {
 		setFontSize: setFontSize,
+		setFont: setFont,
 		setTheme: setTheme,
 		setContentLanguage: setContentLanguage,
 		navigateToPage: navigateToPage,
@@ -271,7 +298,9 @@ window.app = function() {
 		curPage: null,
 		navigateTo: navigateTo,
 		getWikiMetadata: getWikiMetadata,
-		loadMainPage: loadMainPage
+		loadMainPage: loadMainPage,
+		listFonts: listFonts,
+		addFontFace: addFontFace
 	};
 
 	return exports;

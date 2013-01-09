@@ -106,6 +106,14 @@
 					{{/fontSizes}}
 				</select>
 			</div>
+			<div class="item">
+				<label for="fontSelector"><msg key="settings-font-label"></msg></label>
+				<select id="fontSelector">
+					{{#fonts}}
+					<option value="{{value}}">{{value}}</option>
+					{{/fonts}}
+				</select>
+			</div>
 
 			<div id="aboutPageLabel" class="item">
 				<label><msg key="about-page-label"></msg></label>

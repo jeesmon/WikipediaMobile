@@ -1,7 +1,12 @@
 window.appSettings = function() {
-	var fontSizes = [];	
+	var fontSizes = [];
+	var fonts = [];	
 	var locales = [];
 	var themes = [];
+	
+	function fsError(error){
+       //alert(error.code);
+	}
 
 	function showSettings(callback) {
 		chrome.showSpinner();
@@ -15,7 +20,30 @@ window.appSettings = function() {
 				{ value: '300%' }
 			];
 		}
-
+		
+		var fontsDir = 'Fonts';
+		fonts = [];
+		fonts.push({value: 'Default'});
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+            function(fileSys) {
+            	fileSys.root.getDirectory(fontsDir, {create: false, exclusive: false}, function(dir) {
+            		app.listFonts('', dir.fullPath, function(entries) {
+						var i;
+					    for (i=0; i<entries.length; i++) {
+					        if(entries[i].name.toLowerCase().indexOf('ttf') > -1 || entries[i].name.toLowerCase().indexOf('otf') > -1) {
+					        	var font = {value: entries[i].name};
+					        	fonts.push(font);
+					        }
+					    }
+					    
+					    renderSettings();
+						chrome.hideSpinner();
+					});
+            		
+            	}, fsError);
+            }, fsError
+        );
+		
 		if( themes.length === 0 ) {
 			themes = [
 				{ name: 'light', displayName: mw.msg( 'theme-light' ), fileName: 'themes/light.less.css' },
@@ -52,6 +80,7 @@ window.appSettings = function() {
 		$("#settingsList").html( template.render( {
 			languages: locales,
 			fontSizes: fontSizes,
+			fonts: fonts,
 			themes: themes,
 			aboutPage: aboutPage
 		} ) );
@@ -67,6 +96,7 @@ window.appSettings = function() {
 			}
 		});
 		$("#fontSizeSelector").val(preferencesDB.get("fontSize")).change(onFontSizeChanged);
+		$("#fontSelector").val(preferencesDB.get("font")).change(onFontChanged);
 		$( "#themeSelector" ).val( preferencesDB.get( "theme" ) ).change( onThemeChanged );
 		$("#aboutPageLabel").click(function () {
 			aboutPage();
@@ -96,6 +126,12 @@ window.appSettings = function() {
 	function onFontSizeChanged() {
 		var selectedFontSize = $(this).val();
 		app.setFontSize(selectedFontSize);
+		chrome.showContent();
+	}
+	
+	function onFontChanged() {
+		var selectedFont = $(this).val();
+		app.setFont(selectedFont);
 		chrome.showContent();
 	}
 

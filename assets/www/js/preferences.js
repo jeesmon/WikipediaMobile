@@ -10,6 +10,7 @@ window.preferencesDB = {
 	// If it is not a function, is just used as is
 	defaults: {
 		'fontSize': '100%',
+		'font': 'Default',
 		// The locale. Default content language + UI language
 		'locale': function(success) {
 			var defaults = this;

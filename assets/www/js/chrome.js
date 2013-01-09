@@ -51,6 +51,9 @@ window.chrome = function() {
 	}
 
 	function renderHtml(page) {
+		var font = preferencesDB.get('font');
+		app.addFontFace(font);
+	
 		loadSiteCSS( page.lang );
 		$('base').attr('href', page.getCanonicalUrl());
 
@@ -223,6 +226,7 @@ window.chrome = function() {
 			mw.mobileFrontend.references.init($("#content")[0], true, {onClickReference: onClickReference} );
 
 			app.setFontSize(preferencesDB.get('fontSize'));
+			app.setFont(preferencesDB.get('font'));
 			app.setTheme( preferencesDB.get( 'theme' ) );
 
 			handleHeaderTimeout();
