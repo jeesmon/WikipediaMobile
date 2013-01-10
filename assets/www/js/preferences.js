@@ -22,7 +22,7 @@ window.preferencesDB = {
 		},
 		// The language. Only for content
 		'language': function(success) {
-			this.language = l10n.normalizeLanguageCode(preferencesDB.get('locale').replace(/-.*?$/, ''));
+			this.language = 'ml'; //l10n.normalizeLanguageCode(preferencesDB.get('locale').replace(/-.*?$/, ''));
 			success();
 		},
 		// UI Language. Only for UI. Not replaced, unlike language
